@@ -1,374 +1,375 @@
-<html><head><script src="localforage.js"></script>
-  <script>console.log('localforage is: ', localforage);</script>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-  <script type="text/javascript">
-    function SetValue(id) {
-        localforage.getItem(id, function(err, value) {
-            console.log("id=" + id + ", value=" + value);
-            document.getElementById(id).checked = value;
-            SetHideableAreas(id, value ? "block" : "none");
-        });
-    }
+<html>
+  <head><script src="localforage.js"></script>
+	 <script>console.log('localforage is: ', localforage);</script>
+	 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+	 <script type="text/javascript">
+		function SetValue(id) {
+			 localforage.getItem(id, function(err, value) {
+              console.log("id=" + id + ", value=" + value);
+              document.getElementById(id).checked = value;
+              SetHideableAreas(id, value ? "block" : "none");
+			 });
+		}
 
-    function SetHideableAreas(name, value) {
-        var i = 1;
-        while (true) {
-            var key = name + i + "HideableArea";
-            var element = document.getElementById(key);
-            if (element === null)
-                break;
-            console.log("key=" + key + ", value=" + value);
-            element.style.display = value;
-            var members = element.getAttribute("data-members");
-            if (members !== null) {
-                var membersArray = members.split(",");
-                for (var j = 0; j < membersArray.length; j++) {
-                    console.log("j=" + j + ", member=" + membersArray[j]);
-                    var memberElement = document.getElementById(membersArray[j]);
-                    if (value === "none")
-                        memberElement.checked = false;
-                    if (memberElement.type === "checkbox")
-                        CheckBoxShowHide(memberElement);
-                    else if (memberElement.type === "radio")
-                        RadioButtonShowHide(memberElement);
-                }
-            }
-            i++;
-        }
-    }
+		function SetHideableAreas(name, value) {
+			 var i = 1;
+			 while (true) {
+              var key = name + i + "HideableArea";
+              var element = document.getElementById(key);
+              if (element === null)
+						break;
+              console.log("key=" + key + ", value=" + value);
+              element.style.display = value;
+              var members = element.getAttribute("data-members");
+              if (members !== null) {
+						var membersArray = members.split(",");
+						for (var j = 0; j < membersArray.length; j++) {
+							 console.log("j=" + j + ", member=" + membersArray[j]);
+							 var memberElement = document.getElementById(membersArray[j]);
+							 if (value === "none")
+                          memberElement.checked = false;
+							 if (memberElement.type === "checkbox")
+                          CheckBoxShowHide(memberElement);
+							 else if (memberElement.type === "radio")
+                          RadioButtonShowHide(memberElement);
+						}
+              }
+              i++;
+			 }
+		}
 
-    function CheckBoxShowHide(element) {
-        console.log("element.name=" + element.name + ", checked=" + element.checked);
-        localforage.setItem(element.name, element.checked);
-        SetHideableAreas(element.name, element.checked ? "block" : "none");
-    }
+		function CheckBoxShowHide(element) {
+			 console.log("element.name=" + element.name + ", checked=" + element.checked);
+			 localforage.setItem(element.name, element.checked);
+			 SetHideableAreas(element.name, element.checked ? "block" : "none");
+		}
 
-    function RadioButtonShowHide(element) {
-        var elements = document.getElementsByName(element.name);
-        for (var j = 0; j < elements.length; j++) {
-            console.log("j=" + j + ", id=" + elements[j].id);
-            var memberElement = document.getElementById(elements[j].id);
-            localforage.setItem(memberElement.id, memberElement.checked);
-            SetHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
-        }
-    }
+		function RadioButtonShowHide(element) {
+			 var elements = document.getElementsByName(element.name);
+			 for (var j = 0; j < elements.length; j++) {
+              console.log("j=" + j + ", id=" + elements[j].id);
+              var memberElement = document.getElementById(elements[j].id);
+              localforage.setItem(memberElement.id, memberElement.checked);
+              SetHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
+			 }
+		}
 
-    window.onload = function() {
-        // SetValue("Disco");
-        SetValue("Sun");
-        SetValue("Rain");
-        SetValue("Cold");
-        SetValue("Abroad");
-        SetValue("Money");
-        SetValue("Passport");
-        SetValue("Food");
-        SetValue("Sleeping");
-        SetValue("Glasses");
-        SetValue("Hurt");
-        SetValue("Injured");
-        SetValue("Drugs");
-        SetValue("Alcohol");
-        SetValue("SmartPhone");
-        SetValue("Captain");
-        SetValue("Hair");
-        SetValue("Sweets");
-        SetValue("Sleep");
-        SetValue("Shave");
-        SetValue("Navi");
-        SetValue("Games");
-        SetValue("Chair");
-        SetValue("Plugs");
-        SetValue("List");
-        SetValue("Treasurer");
-        SetValue("Boobs");
-        SetValue("Party");
-        SetValue("Water");
-        SetValue("Thing");
+		window.onload = function() {
+			 // SetValue("Disco");
+			 SetValue("Sun");
+			 SetValue("Rain");
+			 SetValue("Cold");
+			 SetValue("Abroad");
+			 SetValue("Money");
+			 SetValue("Passport");
+			 SetValue("Food");
+			 SetValue("Sleeping");
+			 SetValue("Glasses");
+			 SetValue("Hurt");
+			 SetValue("Injured");
+			 SetValue("Drugs");
+			 SetValue("Alcohol");
+			 SetValue("SmartPhone");
+			 SetValue("Captain");
+			 SetValue("Hair");
+			 SetValue("Sweets");
+			 SetValue("Sleep");
+			 SetValue("Shave");
+			 SetValue("Navi");
+			 SetValue("Games");
+			 SetValue("Chair");
+			 SetValue("Plugs");
+			 SetValue("List");
+			 SetValue("Treasurer");
+			 SetValue("Boobs");
+			 SetValue("Party");
+			 SetValue("Water");
+			 SetValue("Thing");
 
-        SetValue("DoorOut");
-        SetValue("DoorIn");
-        SetValue("SurfaceGrass");
-        SetValue("SurfaceSand");
-        SetValue("SurfaceIndoor");
-        SetValue("HousingCamping");
-        SetValue("HousingHotel");
-        SetValue("HousingGym");
-    }
-</script>
-</head>
+			 SetValue("DoorOut");
+			 SetValue("DoorIn");
+			 SetValue("SurfaceGrass");
+			 SetValue("SurfaceSand");
+			 SetValue("SurfaceIndoor");
+			 SetValue("HousingCamping");
+			 SetValue("HousingHotel");
+			 SetValue("HousingGym");
+		}
+	 </script>
+  </head>
 
-<body>
-  <h1>Turnierkoffer</h1>
-  Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.<br><br>
-  <table>
-    <tbody><tr valign="top">
+  <body>
+	 <h1>Turnierkoffer</h1>
+	 Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.<br><br>
+	 <table>
+		<tbody><tr valign="top">
 
-      <td style=";width:300px;text-align:top;">
-        <form name="Form" action="http://www.ultimate-wuerzburg.de/wiki/f/nextpage.asp">
-<!--      <label><input type="checkbox" name="Disco" id="Disco" onclick="CheckBoxShowHide(this)">
-          mit Disc-o-Fever</label><br> -->
-          <label><input type="radio" name="Door" id="DoorOut" onclick="RadioButtonShowHide(this)">
-          draußen</label>
-          <label><input type="radio" name="Door" id="DoorIn" onclick="RadioButtonShowHide(this)">
-          drinnen</label><br>
-          <div id="DoorOut1HideableArea" style="display:none" data-members="Sun,Rain,Cold">
-            <label><input type="checkbox" name="Sun" id="Sun" onclick="CheckBoxShowHide(this)">
-            sonnig</label>
-            <label><input type="checkbox" name="Rain" id="Rain" onclick="CheckBoxShowHide(this)">
-            regnerisch</label>
-            <label><input type="checkbox" name="Cold" id="Cold" onclick="CheckBoxShowHide(this)">
-            kalt</label><br>
-          </div>
-          <br>
-          <label><input type="radio" name="Surface" id="SurfaceGrass" onclick="RadioButtonShowHide(this)">
-          Gras (Kunstrasen)</label><br>
-          <label><input type="radio" name="Surface" id="SurfaceSand" onclick="RadioButtonShowHide(this)">
-          Sand</label>
-          <div id="DoorIn1HideableArea" style="display:none" data-members="SurfaceIndoor">
-            <label><input type="radio" name="Surface" id="SurfaceIndoor" onclick="RadioButtonShowHide(this)">
-            Halle</label>
-          </div>
-          <br>
-          <br>
-          <label><input type="checkbox" name="Abroad" id="Abroad" onclick="CheckBoxShowHide(this)">
-          im Ausland</label><br>
-          <div id="Abroad1HideableArea" style="display:none" data-members="Money">
-            <label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
-            im Nicht-€-Ausland</label><br>
-            <div id="Money1HideableArea" style="display:none" data-members="Passport">
-              <label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
-              im Nicht-EU-Ausland</label><br>
-            </div>
-          </div>
-          <label><input type="checkbox" name="Food" id="Food" onclick="CheckBoxShowHide(this)">
-          es gibt was zum Essen (Frühstück)</label><br>
-          <label><input type="checkbox" name="Sleeping" id="Sleeping" onclick="CheckBoxShowHide(this)">
-          mit Übernachtung</label><br>
-          <div id="Sleeping1HideableArea" style="display:none" data-members="HousingCamping,HousingHotel,HousingGym">
-            <label><input type="radio" name="Housing" id="HousingCamping" onclick="RadioButtonShowHide(this)">
-            Zelt</label>
-            <label><input type="radio" name="Housing" id="HousingHotel" onclick="RadioButtonShowHide(this)">
-            Ho(s)tel</label>
-            <label><input type="radio" name="Housing" id="HousingGym" onclick="RadioButtonShowHide(this)">
-            Schlafhalle</label><br><br>
-          </div>
-          <label><input type="checkbox" name="Glasses" id="Glasses" onclick="CheckBoxShowHide(this)">
-          Brillenträger</label><br>
-          <label><input type="checkbox" name="Hurt" id="Hurt" onclick="CheckBoxShowHide(this)">
-          Wehwehchen</label><br>
-          <label><input type="checkbox" name="Injured" id="Injured" onclick="CheckBoxShowHide(this)">
-          Invalide</label><br>
-          <label><input type="checkbox" name="Drugs" id="Drugs" onclick="CheckBoxShowHide(this)">
-          drogenabhängig</label><br>
-          <label><input type="checkbox" name="Alcohol" id="Alcohol" onclick="CheckBoxShowHide(this)">
-          <s>Alkoholiker</s> trinkfest</label><br>
-          <label><input type="checkbox" name="SmartPhone" id="SmartPhone" onclick="CheckBoxShowHide(this)">
-          Smartphoner</label><br>
-          <label><input type="checkbox" name="Captain" id="Captain" onclick="CheckBoxShowHide(this)">
-          Chef-Stratege</label><br>
-          <label><input type="checkbox" name="Hair" id="Hair" onclick="CheckBoxShowHide(this)">
-          lange Haare</label><br>
-          <label><input type="checkbox" name="Sweets" id="Sweets" onclick="CheckBoxShowHide(this)">
-          Naschkatze</label><br>
-          <label><input type="checkbox" name="Sleep" id="Sleep" onclick="CheckBoxShowHide(this)">
-          Schlafmütze</label><br>
-          <label><input type="checkbox" name="Shave" id="Shave" onclick="CheckBoxShowHide(this)">
-          Rasierfreund</label><br>
-          <label><input type="checkbox" name="Navi" id="Navi" onclick="CheckBoxShowHide(this)">
-          orientierungslos</label><br>
-          <label><input type="checkbox" name="Games" id="Games" onclick="CheckBoxShowHide(this)">
-          Spielkind</label><br>
-          <label><input type="checkbox" name="Chair" id="Chair" onclick="CheckBoxShowHide(this)">
-          alter Mann ;-)</label><br>
-          <label><input type="checkbox" name="Plugs" id="Plugs" onclick="CheckBoxShowHide(this)">
-          leichter Schlaf</label><br>
-          <label><input type="checkbox" name="List" id="List" onclick="CheckBoxShowHide(this)">
-          durchorganisiert</label><br>
-          <label><input type="checkbox" name="Treasurer" id="Treasurer" onclick="CheckBoxShowHide(this)">
-          Kassenwart</label><br>
-          <label><input type="checkbox" name="Boobs" id="Boobs" onclick="CheckBoxShowHide(this)">
-          Brüsteträger(in)</label><br>
-          <label><input type="checkbox" name="Party" id="Party" onclick="CheckBoxShowHide(this)">
-          (Motto-)Party</label><br>
-          <label><input type="checkbox" name="Water" id="Water" onclick="CheckBoxShowHide(this)">
-          am Meer/Schwimmbad/Pool</label><br>
-          <label><input type="checkbox" name="Thing" id="Thing" onclick="CheckBoxShowHide(this)">
-          das eine Ding da</label>
-        </form>
-      </td>
-
-
-      <td style="text-align:top;">
-        Was nehm ich auf das Turnier mit?
-
-        <h4>Essentielles</h4>
-        <input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe<br>
-        <div id="Disco1HideableArea" style="display:none">
-<!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
-        </div>
-        <div id="SurfaceGrass1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stollenschuhe (Multinocken)</label><br>
-        </div>
-        <div id="SurfaceIndoor1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Turnschuhe</label><br>
-        </div>
-        <div id="Sleeping4HideableArea" style="display:none">
-          <div id="HousingCamping1HideableArea" style="display:none">
-            <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zelt</label><br>
-            <label><input type="checkbox" name="irrelevant" value="irrelevant"> Schlafsack, Isomatte</label><br>
-          </div>
-          <div id="HousingGym1HideableArea" style="display:none">
-            <label><input type="checkbox" name="irrelevant" value="irrelevant"> Schlafsack, Isomatte</label><br>
-          </div>
-        </div>
-        <div id="Passport1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> (gültigen!) REISEPASS!</label><br>
-        </div>
-
-        <h4>ausm Schrank</h4>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sporthose</label><br>
-        <div id="Water1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Badehose/Badeanzug/Bikini</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Socken, Unterwäsche</label><br>
-        <div id="SurfaceSand1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sandsocks</label><br>
-        </div>
-        <div id="Boobs1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sport-BH</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> 2 Mannschafts-Trikots</label><br>
-        <span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br><span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
-        <div id="Cold3HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Thermoshirt, Tight, Trainingshose</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Pullover</label><br>
-        <div id="Rain1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Regenjacke (Regenschirm?)</label><br>
-        </div>
-        <div id="Party1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> vielleicht was Schickeres (Kostüm, Verkleidung, Accessoires,...)</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="http://en.wikipedia.org/wiki/Technology_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Towels">Handtuch</a></label><br>
-        <div id="Sun2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Hut/Tuch/Kappe</label><br>
-        </div>
-        <div id="Rain2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kappe</label><br>
-        </div>
-        <div id="Cold1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Mütze</label><br>
-        </div>
-        <div id="SurfaceIndoor2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Knieschoner</label><br>
-        </div>
-        <div id="Sleeping2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Nachthemd</label><br>
-        </div>
-
-        <h4>ausm Bad</h4>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="http://dl.dropbox.com/u/70335285/2012-03-28%2009.34.55.jpg">Duschgel</a> (Shampoo)</label><br>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> <del>Badeschlappen</del> Adiletten!</label><br>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Deo/Aftershave/Parfum</label><br>
-        <div id="Sleeping3HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zahnbürste, Zahnpasta</label><br>
-        </div>
-        <div id="Sun1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnencreme</label><br>
-        </div>
-        <div id="Glasses1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kontaktlinsen, Brillenetui</label><br>
-        </div>
-        <div id="Hurt1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Bepanthen, Tape, Pflaster</label><br>
-        </div>
-        <div id="Injured1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Voltaren, Finalgon</label><br>
-        </div>
-        <div id="Drugs1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ibuprofen</label><br>
-        </div>
-        <div id="Hair1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Haargummi</label><br>
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Föhn</label><br>
-        </div>
-        <div id="Shave1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Rasierer (Rasierschaum)</label><br>
-        </div>
-
-        <h4>aus der Küche</h4>
-        <div id="Food1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Teller, Becher</label><br>
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Messer, Gabel, Löffel</label><br>
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Tupperdose/Verpackung (für geschmierte Brötchen)</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Trinkflasche</label><br>
-
-        <h4>sonstiges</h4>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Geld (für Startgebühr, Essen, ...)</label><br>
-        <div id="Money2HideableArea" style="display:none">
-          <span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
-        </div>
-        <label><input type="checkbox" name="irrelevant" value="irrelevant"> Tüte für Schmutzwäsche</label><br>
-        <div id="Alcohol1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> ein paar Kästen Bier, Duschsekt, Wodka, ...</label><br>
-        </div>
-        <div id="SmartPhone1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ladekabel, Zusatzakku</label><br>
-        </div>
-        <div id="Abroad2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> (wenn ihr in die 90er fahrt:) Steckdosenadapter</label><br>
-        </div>
-        <div id="Sun3HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenbrille</label><br>
-        </div>
-        <div id="Navi1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Anfahrtsbeschreibung/<a href="http://www.garmin.de/">Navi</a></label><br>
-        </div>
-        <div id="Captain1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Taktikboard, Spielzug-Zettel</label><br>
-        </div>
-        <div id="HousingCamping2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stirnlampe/Taschenlampe</label><br>
-        </div>
-        <div id="Sweets1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Müslirieger, Schokolade, Gummibärchen</label><br>
-        </div>
-        <div id="Hurt2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Magnesium/Bananen</label><br>
-        </div>
-        <div id="Hurt3HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Black-Roll</label><br>
-        </div>
-        <div id="Sleep1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> kleines Kopfkissen</label><br>
-        </div>
-        <div id="Cold2HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Handschuhe</label><br>
-        </div>
-        <div id="Games1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten, <a href="http://www.wurstquartett.de/">Wurstquartett</a>, <a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff im Zoo</a>, <a href="http://de.wikipedia.org/wiki/Cafe_International">Café International</a>, <a href="http://de.wikipedia.org/wiki/6_nimmt">6 nimmt</a>, Tablet, ...</label><br>
-        </div>
-        <div id="Chair1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Klappstuhl/Dreibein</label><br>
-        </div>
-        <div id="Plugs1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ohrstöpsel</label><br>
-        </div>
-        <div id="List1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> was auf der Todo-Liste/in den Mails steht</label><br>
-        </div>
-        <div id="Treasurer1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Quittungsblock</label><br>
-        </div>
-        <div id="Thing1HideableArea" style="display:none">
-          <label><input type="checkbox" name="irrelevant" value="irrelevant"> <input type="text" name="thing" value=""></label><br>
-        </div>
-      </td>
-
-    </tr>
-  </tbody></table>
-  <a href="mailto:marv42+koffer@gmail.com">Vorschläge?</a>
+			 <td style=";width:300px;text-align:top;">
+				<form name="Form" action="http://www.ultimate-wuerzburg.de/wiki/f/nextpage.asp">
+				  <!--      <label><input type="checkbox" name="Disco" id="Disco" onclick="CheckBoxShowHide(this)">
+								mit Disc-o-Fever</label><br> -->
+				  <label><input type="radio" name="Door" id="DoorOut" onclick="RadioButtonShowHide(this)">
+					 draußen</label>
+				  <label><input type="radio" name="Door" id="DoorIn" onclick="RadioButtonShowHide(this)">
+					 drinnen</label><br>
+				  <div id="DoorOut1HideableArea" style="display:none" data-members="Sun,Rain,Cold">
+					 <label><input type="checkbox" name="Sun" id="Sun" onclick="CheckBoxShowHide(this)">
+						sonnig</label>
+					 <label><input type="checkbox" name="Rain" id="Rain" onclick="CheckBoxShowHide(this)">
+						regnerisch</label>
+					 <label><input type="checkbox" name="Cold" id="Cold" onclick="CheckBoxShowHide(this)">
+						kalt</label><br>
+				  </div>
+				  <br>
+				  <label><input type="radio" name="Surface" id="SurfaceGrass" onclick="RadioButtonShowHide(this)">
+					 Gras (Kunstrasen)</label><br>
+				  <label><input type="radio" name="Surface" id="SurfaceSand" onclick="RadioButtonShowHide(this)">
+					 Sand</label>
+				  <div id="DoorIn1HideableArea" style="display:none" data-members="SurfaceIndoor">
+					 <label><input type="radio" name="Surface" id="SurfaceIndoor" onclick="RadioButtonShowHide(this)">
+						Halle</label>
+				  </div>
+				  <br>
+				  <br>
+				  <label><input type="checkbox" name="Abroad" id="Abroad" onclick="CheckBoxShowHide(this)">
+					 im Ausland</label><br>
+				  <div id="Abroad1HideableArea" style="display:none" data-members="Money">
+					 <label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
+						im Nicht-€-Ausland</label><br>
+					 <div id="Money1HideableArea" style="display:none" data-members="Passport">
+						<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
+						  im Nicht-EU-Ausland</label><br>
+					 </div>
+				  </div>
+				  <label><input type="checkbox" name="Food" id="Food" onclick="CheckBoxShowHide(this)">
+					 es gibt was zum Essen (Frühstück)</label><br>
+				  <label><input type="checkbox" name="Sleeping" id="Sleeping" onclick="CheckBoxShowHide(this)">
+					 mit Übernachtung</label><br>
+				  <div id="Sleeping1HideableArea" style="display:none" data-members="HousingCamping,HousingHotel,HousingGym">
+					 <label><input type="radio" name="Housing" id="HousingCamping" onclick="RadioButtonShowHide(this)">
+						Zelt</label>
+					 <label><input type="radio" name="Housing" id="HousingHotel" onclick="RadioButtonShowHide(this)">
+						Ho(s)tel</label>
+					 <label><input type="radio" name="Housing" id="HousingGym" onclick="RadioButtonShowHide(this)">
+						Schlafhalle</label><br><br>
+				  </div>
+				  <label><input type="checkbox" name="Glasses" id="Glasses" onclick="CheckBoxShowHide(this)">
+					 Brillenträger</label><br>
+				  <label><input type="checkbox" name="Hurt" id="Hurt" onclick="CheckBoxShowHide(this)">
+					 Wehwehchen</label><br>
+				  <label><input type="checkbox" name="Injured" id="Injured" onclick="CheckBoxShowHide(this)">
+					 Invalide</label><br>
+				  <label><input type="checkbox" name="Drugs" id="Drugs" onclick="CheckBoxShowHide(this)">
+					 drogenabhängig</label><br>
+				  <label><input type="checkbox" name="Alcohol" id="Alcohol" onclick="CheckBoxShowHide(this)">
+					 <s>Alkoholiker</s> trinkfest</label><br>
+				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone" onclick="CheckBoxShowHide(this)">
+					 Smartphoner</label><br>
+				  <label><input type="checkbox" name="Captain" id="Captain" onclick="CheckBoxShowHide(this)">
+					 Chef-Stratege</label><br>
+				  <label><input type="checkbox" name="Hair" id="Hair" onclick="CheckBoxShowHide(this)">
+					 lange Haare</label><br>
+				  <label><input type="checkbox" name="Sweets" id="Sweets" onclick="CheckBoxShowHide(this)">
+					 Naschkatze</label><br>
+				  <label><input type="checkbox" name="Sleep" id="Sleep" onclick="CheckBoxShowHide(this)">
+					 Schlafmütze</label><br>
+				  <label><input type="checkbox" name="Shave" id="Shave" onclick="CheckBoxShowHide(this)">
+					 Rasierfreund</label><br>
+				  <label><input type="checkbox" name="Navi" id="Navi" onclick="CheckBoxShowHide(this)">
+					 orientierungslos</label><br>
+				  <label><input type="checkbox" name="Games" id="Games" onclick="CheckBoxShowHide(this)">
+					 Spielkind</label><br>
+				  <label><input type="checkbox" name="Chair" id="Chair" onclick="CheckBoxShowHide(this)">
+					 alter Mann ;-)</label><br>
+				  <label><input type="checkbox" name="Plugs" id="Plugs" onclick="CheckBoxShowHide(this)">
+					 leichter Schlaf</label><br>
+				  <label><input type="checkbox" name="List" id="List" onclick="CheckBoxShowHide(this)">
+					 durchorganisiert</label><br>
+				  <label><input type="checkbox" name="Treasurer" id="Treasurer" onclick="CheckBoxShowHide(this)">
+					 Kassenwart</label><br>
+				  <label><input type="checkbox" name="Boobs" id="Boobs" onclick="CheckBoxShowHide(this)">
+					 Brüsteträger(in)</label><br>
+				  <label><input type="checkbox" name="Party" id="Party" onclick="CheckBoxShowHide(this)">
+					 (Motto-)Party</label><br>
+				  <label><input type="checkbox" name="Water" id="Water" onclick="CheckBoxShowHide(this)">
+					 am Meer/Schwimmbad/Pool</label><br>
+				  <label><input type="checkbox" name="Thing" id="Thing" onclick="CheckBoxShowHide(this)">
+					 das eine Ding da</label>
+				</form>
+			 </td>
 
 
-</body></html>
+			 <td style="text-align:top;">
+				Was nehm ich auf das Turnier mit?
+
+				<h4>Essentielles</h4>
+				<input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe<br>
+				<div id="Disco1HideableArea" style="display:none">
+				  <!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
+				</div>
+				<div id="SurfaceGrass1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stollenschuhe (Multinocken)</label><br>
+				</div>
+				<div id="SurfaceIndoor1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Turnschuhe</label><br>
+				</div>
+				<div id="Sleeping4HideableArea" style="display:none">
+				  <div id="HousingCamping1HideableArea" style="display:none">
+					 <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zelt</label><br>
+					 <label><input type="checkbox" name="irrelevant" value="irrelevant"> Schlafsack, Isomatte</label><br>
+				  </div>
+				  <div id="HousingGym1HideableArea" style="display:none">
+					 <label><input type="checkbox" name="irrelevant" value="irrelevant"> Schlafsack, Isomatte</label><br>
+				  </div>
+				</div>
+				<div id="Passport1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> (gültigen!) REISEPASS!</label><br>
+				</div>
+
+				<h4>ausm Schrank</h4>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Sporthose</label><br>
+				<div id="Water1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Badehose/Badeanzug/Bikini</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Socken, Unterwäsche</label><br>
+				<div id="SurfaceSand1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sandsocks</label><br>
+				</div>
+				<div id="Boobs1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sport-BH</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> 2 Mannschafts-Trikots</label><br>
+				<span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br><span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
+				<div id="Cold3HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Thermoshirt, Tight, Trainingshose</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Pullover</label><br>
+				<div id="Rain1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Regenjacke (Regenschirm?)</label><br>
+				</div>
+				<div id="Party1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> vielleicht was Schickeres (Kostüm, Verkleidung, Accessoires,...)</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="http://en.wikipedia.org/wiki/Technology_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Towels">Handtuch</a></label><br>
+				<div id="Sun2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Hut/Tuch/Kappe</label><br>
+				</div>
+				<div id="Rain2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kappe</label><br>
+				</div>
+				<div id="Cold1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Mütze</label><br>
+				</div>
+				<div id="SurfaceIndoor2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Knieschoner</label><br>
+				</div>
+				<div id="Sleeping2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Nachthemd</label><br>
+				</div>
+
+				<h4>ausm Bad</h4>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="http://dl.dropbox.com/u/70335285/2012-03-28%2009.34.55.jpg">Duschgel</a> (Shampoo)</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <del>Badeschlappen</del> Adiletten!</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Deo/Aftershave/Parfum</label><br>
+				<div id="Sleeping3HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zahnbürste, Zahnpasta</label><br>
+				</div>
+				<div id="Sun1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnencreme</label><br>
+				</div>
+				<div id="Glasses1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kontaktlinsen, Brillenetui</label><br>
+				</div>
+				<div id="Hurt1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Bepanthen, Tape, Pflaster</label><br>
+				</div>
+				<div id="Injured1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Voltaren, Finalgon</label><br>
+				</div>
+				<div id="Drugs1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ibuprofen</label><br>
+				</div>
+				<div id="Hair1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Haargummi</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Föhn</label><br>
+				</div>
+				<div id="Shave1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Rasierer (Rasierschaum)</label><br>
+				</div>
+
+				<h4>aus der Küche</h4>
+				<div id="Food1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Teller, Becher</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Messer, Gabel, Löffel</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Tupperdose/Verpackung (für geschmierte Brötchen)</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Trinkflasche</label><br>
+
+				<h4>sonstiges</h4>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Geld (für Startgebühr, Essen, ...)</label><br>
+				<div id="Money2HideableArea" style="display:none">
+				  <span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
+				</div>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Tüte für Schmutzwäsche</label><br>
+				<div id="Alcohol1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> ein paar Kästen Bier, Duschsekt, Wodka, ...</label><br>
+				</div>
+				<div id="SmartPhone1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ladekabel, Zusatzakku</label><br>
+				</div>
+				<div id="Abroad2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> (wenn ihr in die 90er fahrt:) Steckdosenadapter</label><br>
+				</div>
+				<div id="Sun3HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenbrille</label><br>
+				</div>
+				<div id="Navi1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Anfahrtsbeschreibung/<a href="http://www.garmin.de/">Navi</a></label><br>
+				</div>
+				<div id="Captain1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Taktikboard, Spielzug-Zettel</label><br>
+				</div>
+				<div id="HousingCamping2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stirnlampe/Taschenlampe</label><br>
+				</div>
+				<div id="Sweets1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Müslirieger, Schokolade, Gummibärchen</label><br>
+				</div>
+				<div id="Hurt2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Magnesium/Bananen</label><br>
+				</div>
+				<div id="Hurt3HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Black-Roll</label><br>
+				</div>
+				<div id="Sleep1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> kleines Kopfkissen</label><br>
+				</div>
+				<div id="Cold2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Handschuhe</label><br>
+				</div>
+				<div id="Games1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten, <a href="http://www.wurstquartett.de/">Wurstquartett</a>, <a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff im Zoo</a>, <a href="http://de.wikipedia.org/wiki/Cafe_International">Café International</a>, <a href="http://de.wikipedia.org/wiki/6_nimmt">6 nimmt</a>, Tablet, ...</label><br>
+				</div>
+				<div id="Chair1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Klappstuhl/Dreibein</label><br>
+				</div>
+				<div id="Plugs1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ohrstöpsel</label><br>
+				</div>
+				<div id="List1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> was auf der Todo-Liste/in den Mails steht</label><br>
+				</div>
+				<div id="Treasurer1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Quittungsblock</label><br>
+				</div>
+				<div id="Thing1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> <input type="text" name="thing" value=""></label><br>
+				</div>
+			 </td>
+
+		  </tr>
+	 </tbody></table>
+	 <a href="mailto:mail@turnierkoffer.stefanhorter.de">Vorschläge?</a>
+
+  </body>
+</html>
