@@ -83,7 +83,8 @@
 			 SetValue("Treasurer");
 			 SetValue("Boobs");
 			 SetValue("Party");
-			 SetValue("Water");
+			 SetValue("Swim");
+			 SetValue("Insects");
 			 SetValue("Thing");
 
 			 SetValue("DoorOut");
@@ -100,12 +101,13 @@
 
   <body>
 	 <h1>Turnierkoffer</h1>
+	 <small>(kann auch für Taschen und Rucksäcke verwendet werden)</small><br><br>
 	 Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.<br><br>
 	 <table>
 		<tbody><tr valign="top">
 
 			 <td style=";width:300px;text-align:top;">
-				<form name="Form" action="http://www.ultimate-wuerzburg.de/wiki/f/nextpage.asp">
+				<form name="Form">
 				  <!--      <label><input type="checkbox" name="Disco" id="Disco" onclick="CheckBoxShowHide(this)">
 								mit Disc-o-Fever</label><br> -->
 				  <label><input type="radio" name="Door" id="DoorOut" onclick="RadioButtonShowHide(this)">
@@ -134,10 +136,10 @@
 				  <label><input type="checkbox" name="Abroad" id="Abroad" onclick="CheckBoxShowHide(this)">
 					 im Ausland</label><br>
 				  <div id="Abroad1HideableArea" style="display:none" data-members="Money">
-					 <label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
+					 &nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
 						im Nicht-€-Ausland</label><br>
 					 <div id="Money1HideableArea" style="display:none" data-members="Passport">
-						<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
 						  im Nicht-EU-Ausland</label><br>
 					 </div>
 				  </div>
@@ -191,8 +193,12 @@
 					 Brüsteträger(in)</label><br>
 				  <label><input type="checkbox" name="Party" id="Party" onclick="CheckBoxShowHide(this)">
 					 (Motto-)Party</label><br>
-				  <label><input type="checkbox" name="Water" id="Water" onclick="CheckBoxShowHide(this)">
-					 am Meer/Schwimmbad/Pool</label><br>
+				  <label><input type="checkbox" name="Swim" id="Swim" onclick="CheckBoxShowHide(this)">
+					 am Wasser</label><br>
+				  <div id="Swim1HideableArea" style="display:none" data-members="Insects">
+					 &nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects" onclick="CheckBoxShowHide(this)">
+						am See/Fluss</label><br>
+				  </div>
 				  <label><input type="checkbox" name="Thing" id="Thing" onclick="CheckBoxShowHide(this)">
 					 das eine Ding da</label>
 				</form>
@@ -228,7 +234,7 @@
 
 				<h4>ausm Schrank</h4>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Sporthose</label><br>
-				<div id="Water1HideableArea" style="display:none">
+				<div id="Swim2HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Badehose/Badeanzug/Bikini</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Socken, Unterwäsche</label><br>
@@ -239,7 +245,7 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sport-BH</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> 2 Mannschafts-Trikots</label><br>
-				<span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br><span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
+				&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br>&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
 				<div id="Cold3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Thermoshirt, Tight, Trainingshose</label><br>
 				</div>
@@ -250,7 +256,7 @@
 				<div id="Party1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> vielleicht was Schickeres (Kostüm, Verkleidung, Accessoires,...)</label><br>
 				</div>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="http://en.wikipedia.org/wiki/Technology_in_The_Hitchhiker%27s_Guide_to_the_Galaxy#Towels">Handtuch</a></label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <a href="https://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Knowing_where_one's_towel_is">Handtuch</a></label><br>
 				<div id="Sun2HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Hut/Tuch/Kappe</label><br>
 				</div>
@@ -276,6 +282,9 @@
 				</div>
 				<div id="Sun1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnencreme</label><br>
+				</div>
+				<div id="Insects1HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Mückenspray</label><br>
 				</div>
 				<div id="Glasses1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kontaktlinsen, Brillenetui</label><br>
@@ -308,7 +317,7 @@
 				<h4>sonstiges</h4>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Geld (für Startgebühr, Essen, ...)</label><br>
 				<div id="Money2HideableArea" style="display:none">
-				  <span style="white-space:pre">	</span><label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
+				  &nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Tüte für Schmutzwäsche</label><br>
 				<div id="Alcohol1HideableArea" style="display:none">
@@ -317,8 +326,8 @@
 				<div id="SmartPhone1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ladekabel, Zusatzakku</label><br>
 				</div>
-				<div id="Abroad2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> (wenn ihr in die 90er fahrt:) Steckdosenadapter</label><br>
+				<div id="Passport2HideableArea" style="display:none">
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Steckdosenadapter</label><br>
 				</div>
 				<div id="Sun3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenbrille</label><br>
@@ -363,7 +372,7 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Quittungsblock</label><br>
 				</div>
 				<div id="Thing1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> <input type="text" name="thing" value=""></label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> <input type="text" name="thing" value="" placeholder="Playboy"></label><br>
 				</div>
 			 </td>
 
