@@ -59,7 +59,6 @@
 			 SetValue("Sun");
 			 SetValue("Rain");
 			 SetValue("Cold");
-			 SetValue("Abroad");
 			 SetValue("Money");
 			 SetValue("Passport");
 			 SetValue("Food");
@@ -133,15 +132,11 @@
 				  </div>
 				  <br>
 				  <br>
-				  <label><input type="checkbox" name="Abroad" id="Abroad" onclick="CheckBoxShowHide(this)">
-					 im Ausland</label><br>
-				  <div id="Abroad1HideableArea" style="display:none" data-members="Money">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
-						im Nicht-€-Ausland</label><br>
-					 <div id="Money1HideableArea" style="display:none" data-members="Passport">
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
-						  im Nicht-EU-Ausland</label><br>
-					 </div>
+				  <label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
+					 im Nicht-€-Ausland</label><br>
+				  <div id="Money1HideableArea" style="display:none" data-members="Passport">
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
+						im Nicht-EU-Ausland</label><br>
 				  </div>
 				  <label><input type="checkbox" name="Food" id="Food" onclick="CheckBoxShowHide(this)">
 					 es gibt was zum Essen (Frühstück)</label><br>
