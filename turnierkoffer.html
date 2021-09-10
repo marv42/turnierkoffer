@@ -54,6 +54,11 @@
 			 }
 		}
 
+	 	function reset_all_values() {
+			 localforage.clear();
+			 window.location.reload();
+		}
+
 		window.onload = function() {
 			 // SetValue("Disco");
 			 SetValue("Sun");
@@ -94,6 +99,9 @@
 			 SetValue("HousingCamping");
 			 SetValue("HousingHotel");
 			 SetValue("HousingGym");
+
+			 document.getElementById("reset_all")
+				  .onclick = reset_all_values;
 		}
 	 </script>
   </head>
@@ -205,9 +213,9 @@
 
 				<h4>Essentielles</h4>
 				<input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe<br>
-				<div id="Disco1HideableArea" style="display:none">
+				<!-- <div id="Disco1HideableArea" style="display:none"> -->
 				  <!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
-				</div>
+				  <!-- </div> -->
 				<div id="SurfaceGrass1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stollenschuhe (Multinocken)</label><br>
 				</div>
@@ -373,7 +381,8 @@
 
 		  </tr>
 	 </tbody></table>
-	 <a href="mailto:turnierkoffer@stefanhorter.de">Vorschläge?</a>
+	 <button type="button" id="reset_all">Alles zurücksetzen</button><br><br>
 
+	 <a href="mailto:turnierkoffer@stefanhorter.de">Vorschläge?</a>
   </body>
 </html>
