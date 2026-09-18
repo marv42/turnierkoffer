@@ -5,36 +5,36 @@
 	 <script type="text/javascript">
 		function SetValue(id) {
 			 localforage.getItem(id, function(err, value) {
-              console.log("id=" + id + ", value=" + value);
-              document.getElementById(id).checked = value;
-              SetHideableAreas(id, value ? "block" : "none");
+				  console.log("id=" + id + ", value=" + value);
+				  document.getElementById(id).checked = value;
+				  SetHideableAreas(id, value ? "block" : "none");
 			 });
 		}
 
 		function SetHideableAreas(name, value) {
 			 var i = 1;
 			 while (true) {
-              var key = name + i + "HideableArea";
-              var element = document.getElementById(key);
-              if (element === null)
+				  var key = name + i + "HideableArea";
+				  var element = document.getElementById(key);
+				  if (element === null)
 						break;
-              console.log("key=" + key + ", value=" + value);
-              element.style.display = value;
-              var members = element.getAttribute("data-members");
-              if (members !== null) {
+				  console.log("key=" + key + ", value=" + value);
+				  element.style.display = value;
+				  var members = element.getAttribute("data-members");
+				  if (members !== null) {
 						var membersArray = members.split(",");
 						for (var j = 0; j < membersArray.length; j++) {
 							 console.log("j=" + j + ", member=" + membersArray[j]);
 							 var memberElement = document.getElementById(membersArray[j]);
 							 if (value === "none")
-                          memberElement.checked = false;
+								  memberElement.checked = false;
 							 if (memberElement.type === "checkbox")
-                          CheckBoxShowHide(memberElement);
+								  CheckBoxShowHide(memberElement);
 							 else if (memberElement.type === "radio")
-                          RadioButtonShowHide(memberElement);
+								  RadioButtonShowHide(memberElement);
 						}
-              }
-              i++;
+				  }
+				  i++;
 			 }
 		}
 
@@ -47,14 +47,14 @@
 		function RadioButtonShowHide(element) {
 			 var elements = document.getElementsByName(element.name);
 			 for (var j = 0; j < elements.length; j++) {
-              console.log("j=" + j + ", id=" + elements[j].id);
-              var memberElement = document.getElementById(elements[j].id);
-              localforage.setItem(memberElement.id, memberElement.checked);
-              SetHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
+				  console.log("j=" + j + ", id=" + elements[j].id);
+				  var memberElement = document.getElementById(elements[j].id);
+				  localforage.setItem(memberElement.id, memberElement.checked);
+				  SetHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
 			 }
 		}
 
-	 	function reset_all_values() {
+		function reset_all_values() {
 			 localforage.clear();
 			 window.location.reload();
 		}
@@ -261,7 +261,7 @@
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Handtuch (<a href="https://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Knowing_where_one's_towel_is">warum</a>?)</label><br>
 				<div id="Sun2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Hut/Tuch/Kappe</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenhut/Tuch</label><br>
 				</div>
 				<div id="Rain2HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kappe</label><br>
