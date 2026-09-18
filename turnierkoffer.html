@@ -1,109 +1,112 @@
 <!DOCTYPE html>
-<html>
-  <head><script src="localforage.js" defer></script>
-	 <script>console.log('localforage is: ', localforage);</script>
-	 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	 <script type="text/javascript">
-		function SetValue(id) {
-			 localforage.getItem(id, function(err, value) {
-				  console.log("id=" + id + ", value=" + value);
-				  document.getElementById(id).checked = value;
-				  SetHideableAreas(id, value ? "block" : "none");
-			 });
+<html lang="de">
+  <head>
+	 <meta charset="UTF-8">
+	 <title>Turnierkoffer</title>
+	 <script src="localforage.js"></script>
+	 <script>
+		console.log('localforage is:', typeof localforage !== 'undefined' ? localforage : 'not loaded yet');
+	 </script>
+
+	 <script>
+		async function setValue(id) {
+		  try {
+			 const value = await localforage.getItem(id);
+			 const el = document.getElementById(id);
+			 if (!el) return;
+
+			 el.checked = !!value;
+			 setHideableAreas(id, value ? "block" : "none");
+		  } catch (err) {
+			 console.error("Error loading value for", id, err);
+		  }
 		}
 
-		function SetHideableAreas(name, value) {
-			 var i = 1;
-			 while (true) {
-				  var key = name + i + "HideableArea";
-				  var element = document.getElementById(key);
-				  if (element === null)
-						break;
-				  console.log("key=" + key + ", value=" + value);
-				  element.style.display = value;
-				  var members = element.getAttribute("data-members");
-				  if (members !== null) {
-						var membersArray = members.split(",");
-						for (var j = 0; j < membersArray.length; j++) {
-							 console.log("j=" + j + ", member=" + membersArray[j]);
-							 var memberElement = document.getElementById(membersArray[j]);
-							 if (value === "none")
-								  memberElement.checked = false;
-							 if (memberElement.type === "checkbox")
-								  CheckBoxShowHide(memberElement);
-							 else if (memberElement.type === "radio")
-								  RadioButtonShowHide(memberElement);
-						}
+		function setHideableAreas(name, value) {
+		  let i = 1;
+		  while (true) {
+			 const key = name + i + "HideableArea";
+			 const element = document.getElementById(key);
+			 if (!element) break;
+
+			 element.style.display = value;
+
+			 const membersAttr = element.getAttribute("data-members");
+			 if (membersAttr !== null) {
+				const membersArray = membersAttr.split(",");
+				for (let j = 0; j < membersArray.length; j++) {
+				  const memberId = membersArray[j].trim();
+				  const memberElement = document.getElementById(memberId);
+				  if (!memberElement) continue;
+
+				  if (value === "none" && memberElement.type === "checkbox") {
+					 memberElement.checked = false;
 				  }
-				  i++;
+
+				  if (memberElement.type === "checkbox") {
+					 checkBoxShowHide(memberElement);
+				  } else if (memberElement.type === "radio") {
+					 radioButtonShowHide(memberElement);
+				  }
+				}
 			 }
+
+			 i++;
+		  }
 		}
 
-		function CheckBoxShowHide(element) {
-			 console.log("element.name=" + element.name + ", checked=" + element.checked);
-			 localforage.setItem(element.name, element.checked);
-			 SetHideableAreas(element.name, element.checked ? "block" : "none");
+		function checkBoxShowHide(element) {
+		  console.log("element.name=" + element.name + ", checked=" + element.checked);
+		  localforage.setItem(element.name, element.checked).catch(console.error);
+		  setHideableAreas(element.name, element.checked ? "block" : "none");
 		}
 
-		function RadioButtonShowHide(element) {
-			 var elements = document.getElementsByName(element.name);
-			 for (var j = 0; j < elements.length; j++) {
-				  console.log("j=" + j + ", id=" + elements[j].id);
-				  var memberElement = document.getElementById(elements[j].id);
-				  localforage.setItem(memberElement.id, memberElement.checked);
-				  SetHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
-			 }
+		function radioButtonShowHide(element) {
+		  const elements = document.getElementsByName(element.name);
+		  for (let j = 0; j < elements.length; j++) {
+			 const memberElement = document.getElementById(elements[j].id);
+			 if (!memberElement) continue;
+
+			 localforage.setItem(memberElement.id, memberElement.checked).catch(console.error);
+			 setHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
+		  }
 		}
 
-		function reset_all_values() {
-			 localforage.clear();
+		function resetAllValues() {
+		  if (!confirm("Alle gespeicherten Werte wirklich zurücksetzen?")) return;
+		  localforage.clear().then(() => {
 			 window.location.reload();
+		  }).catch(console.error);
 		}
 
-		window.onload = function() {
-			 // SetValue("Disco");
-			 SetValue("Sun");
-			 SetValue("Rain");
-			 SetValue("Cold");
-			 SetValue("Money");
-			 SetValue("Passport");
-			 SetValue("Food");
-			 SetValue("Sleeping");
-			 SetValue("Glasses");
-			 SetValue("Hurt");
-			 SetValue("Injured");
-			 SetValue("Drugs");
-			 SetValue("Alcohol");
-			 SetValue("SmartPhone");
-			 SetValue("Captain");
-			 SetValue("Hair");
-			 SetValue("Sweets");
-			 SetValue("Sleep");
-			 SetValue("Shave");
-			 SetValue("Navi");
-			 SetValue("Games");
-			 SetValue("Chair");
-			 SetValue("Plugs");
-			 SetValue("List");
-			 SetValue("Treasurer");
-			 SetValue("Boobs");
-			 SetValue("Party");
-			 SetValue("Swim");
-			 SetValue("Insects");
-			 SetValue("Thing");
+		document.addEventListener("DOMContentLoaded", () => {
+		  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+			 input.addEventListener("change", () => {
+				if (input.type === "checkbox") {
+				  checkBoxShowHide(input);
+				} else if (input.type === "radio") {
+				  radioButtonShowHide(input);
+				}
+			 });
+		  });
 
-			 SetValue("DoorOut");
-			 SetValue("DoorIn");
-			 SetValue("SurfaceGrass");
-			 SetValue("SurfaceSand");
-			 SetValue("SurfaceIndoor");
-			 SetValue("HousingCamping");
-			 SetValue("HousingHotel");
-			 SetValue("HousingGym");
+		  const resetButton = document.getElementById("reset_all");
+		  if (resetButton) {
+			 resetButton.addEventListener("click", resetAllValues);
+		  }
 
-			 document.getElementById("reset_all")
-				  .onclick = reset_all_values;
-		}
+		  const ids = [
+			 "Sun", "Rain", "Cold", "Money", "Passport", "Food", "Sleeping",
+			 "Glasses", "Hurt", "Injured", "Drugs", "Alcohol", "SmartPhone",
+			 "Captain", "Hair", "Sweets", "Sleep", "Shave", "Navi", "Games",
+			 "Chair", "Plugs", "List", "Treasurer", "Boobs", "Party", "Swim",
+			 "Insects", "Thing", "DoorOut", "DoorIn", "SurfaceGrass",
+			 "SurfaceSand", "SurfaceIndoor", "HousingCamping", "HousingHotel",
+			 "HousingGym"
+		  ];
+
+		  ids.forEach(id => setValue(id));
+		});
 	 </script>
   </head>
 
@@ -112,102 +115,101 @@
 	 <small>(kann auch für Taschen und Rucksäcke verwendet werden)</small><br><br>
 	 Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.<br><br>
 	 <table>
-		<tbody><tr valign="top">
-
-			 <td style=";width:300px;text-align:top;">
+		<tbody>
+		  <tr valign="top">
+			 <td style="width:300px;text-align:top;">
 				<form name="Form">
-				  <!--      <label><input type="checkbox" name="Disco" id="Disco" onclick="CheckBoxShowHide(this)">
-								mit Disc-o-Fever</label><br> -->
-				  <label><input type="radio" name="Door" id="DoorOut" onclick="RadioButtonShowHide(this)">
+				  <!--      <label><input type="checkbox" name="Disco" id="Disco">
+				  mit Disc-o-Fever</label><br> -->
+				  <label><input type="radio" name="Door" id="DoorOut">
 					 draußen</label>
-				  <label><input type="radio" name="Door" id="DoorIn" onclick="RadioButtonShowHide(this)">
+				  <label><input type="radio" name="Door" id="DoorIn">
 					 drinnen</label><br>
 				  <div id="DoorOut1HideableArea" style="display:none" data-members="Sun,Rain,Cold">
-					 <label><input type="checkbox" name="Sun" id="Sun" onclick="CheckBoxShowHide(this)">
+					 <label><input type="checkbox" name="Sun" id="Sun">
 						sonnig</label>
-					 <label><input type="checkbox" name="Rain" id="Rain" onclick="CheckBoxShowHide(this)">
+					 <label><input type="checkbox" name="Rain" id="Rain">
 						regnerisch</label>
-					 <label><input type="checkbox" name="Cold" id="Cold" onclick="CheckBoxShowHide(this)">
+					 <label><input type="checkbox" name="Cold" id="Cold">
 						kalt</label><br>
 				  </div>
 				  <br>
-				  <label><input type="radio" name="Surface" id="SurfaceGrass" onclick="RadioButtonShowHide(this)">
+				  <label><input type="radio" name="Surface" id="SurfaceGrass">
 					 Gras (Kunstrasen)</label><br>
-				  <label><input type="radio" name="Surface" id="SurfaceSand" onclick="RadioButtonShowHide(this)">
+				  <label><input type="radio" name="Surface" id="SurfaceSand">
 					 Sand</label>
 				  <div id="DoorIn1HideableArea" style="display:none" data-members="SurfaceIndoor">
-					 <label><input type="radio" name="Surface" id="SurfaceIndoor" onclick="RadioButtonShowHide(this)">
+					 <label><input type="radio" name="Surface" id="SurfaceIndoor">
 						Halle</label>
 				  </div>
 				  <br>
 				  <br>
-				  <label><input type="checkbox" name="Money" id="Money" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Money" id="Money">
 					 im Nicht-€-Ausland</label><br>
 				  <div id="Money1HideableArea" style="display:none" data-members="Passport">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport" onclick="CheckBoxShowHide(this)">
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport">
 						im Nicht-EU-Ausland</label><br>
 				  </div>
-				  <label><input type="checkbox" name="Food" id="Food" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Food" id="Food">
 					 es gibt was zum Essen (Frühstück)</label><br>
-				  <label><input type="checkbox" name="Sleeping" id="Sleeping" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Sleeping" id="Sleeping">
 					 mit Übernachtung</label><br>
 				  <div id="Sleeping1HideableArea" style="display:none" data-members="HousingCamping,HousingHotel,HousingGym">
-					 <label><input type="radio" name="Housing" id="HousingCamping" onclick="RadioButtonShowHide(this)">
+					 <label><input type="radio" name="Housing" id="HousingCamping">
 						Zelt</label>
-					 <label><input type="radio" name="Housing" id="HousingHotel" onclick="RadioButtonShowHide(this)">
+					 <label><input type="radio" name="Housing" id="HousingHotel">
 						Ho(s)tel</label>
-					 <label><input type="radio" name="Housing" id="HousingGym" onclick="RadioButtonShowHide(this)">
+					 <label><input type="radio" name="Housing" id="HousingGym">
 						Schlafhalle</label><br><br>
 				  </div>
-				  <label><input type="checkbox" name="Glasses" id="Glasses" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Glasses" id="Glasses">
 					 Brillenträger</label><br>
-				  <label><input type="checkbox" name="Hurt" id="Hurt" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Hurt" id="Hurt">
 					 Wehwehchen</label><br>
-				  <label><input type="checkbox" name="Injured" id="Injured" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Injured" id="Injured">
 					 Invalide</label><br>
-				  <label><input type="checkbox" name="Drugs" id="Drugs" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Drugs" id="Drugs">
 					 drogenabhängig</label><br>
-				  <label><input type="checkbox" name="Alcohol" id="Alcohol" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Alcohol" id="Alcohol">
 					 <s>Alkoholiker</s> trinkfest</label><br>
-				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone">
 					 Smartphoner</label><br>
-				  <label><input type="checkbox" name="Captain" id="Captain" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Captain" id="Captain">
 					 Chef-Stratege</label><br>
-				  <label><input type="checkbox" name="Hair" id="Hair" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Hair" id="Hair">
 					 lange Haare</label><br>
-				  <label><input type="checkbox" name="Sweets" id="Sweets" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Sweets" id="Sweets">
 					 Naschkatze</label><br>
-				  <label><input type="checkbox" name="Sleep" id="Sleep" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Sleep" id="Sleep">
 					 Schlafmütze</label><br>
-				  <label><input type="checkbox" name="Shave" id="Shave" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Shave" id="Shave">
 					 Rasierfreund</label><br>
-				  <label><input type="checkbox" name="Navi" id="Navi" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Navi" id="Navi">
 					 orientierungslos</label><br>
-				  <label><input type="checkbox" name="Games" id="Games" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Games" id="Games">
 					 Spielkind</label><br>
-				  <label><input type="checkbox" name="Chair" id="Chair" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Chair" id="Chair">
 					 alter Mann ;-)</label><br>
-				  <label><input type="checkbox" name="Plugs" id="Plugs" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Plugs" id="Plugs">
 					 leichter Schlaf</label><br>
-				  <label><input type="checkbox" name="List" id="List" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="List" id="List">
 					 durchorganisiert</label><br>
-				  <label><input type="checkbox" name="Treasurer" id="Treasurer" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Treasurer" id="Treasurer">
 					 Kassenwart</label><br>
-				  <label><input type="checkbox" name="Boobs" id="Boobs" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Boobs" id="Boobs">
 					 Brüsteträger(in)</label><br>
-				  <label><input type="checkbox" name="Party" id="Party" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Party" id="Party">
 					 (Motto-)Party</label><br>
-				  <label><input type="checkbox" name="Swim" id="Swim" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Swim" id="Swim">
 					 am Wasser</label><br>
 				  <div id="Swim1HideableArea" style="display:none" data-members="Insects">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects" onclick="CheckBoxShowHide(this)">
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects">
 						am See/Fluss</label><br>
 				  </div>
-				  <label><input type="checkbox" name="Thing" id="Thing" onclick="CheckBoxShowHide(this)">
+				  <label><input type="checkbox" name="Thing" id="Thing">
 					 das eine Ding da</label>
 				</form>
 			 </td>
-
 
 			 <td style="text-align:top;">
 				Was nehm ich auf das Turnier mit?
@@ -215,8 +217,8 @@
 				<h4>Essentielles</h4>
 				<input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe<br>
 				<!-- <div id="Disco1HideableArea" style="display:none"> -->
-				  <!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
-				  <!-- </div> -->
+				<!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
+				<!-- </div> -->
 				<div id="SurfaceGrass1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stollenschuhe (Multinocken)</label><br>
 				</div>
@@ -249,7 +251,8 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sport-BH</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> 2 Mannschafts-Trikots</label><br>
-				&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br>&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
 				<div id="Cold3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Thermoshirt, Tight, Trainingshose</label><br>
 				</div>
@@ -376,12 +379,15 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Quittungsblock</label><br>
 				</div>
 				<div id="Thing1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> <input type="text" name="thing" value="" placeholder="Playboy"></label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant">
+					 <input type="text" name="thing" value="" placeholder="Playboy">
+				  </label><br>
 				</div>
 			 </td>
-
 		  </tr>
-	 </tbody></table>
+		</tbody>
+	 </table>
+
 	 <button type="button" id="reset_all">Alles zurücksetzen</button><br><br>
 
 	 <a href="mailto:stefanhorter+koffer@gmail.com">Vorschläge?</a>
