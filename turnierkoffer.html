@@ -28,9 +28,7 @@
 			 const key = name + i + "HideableArea";
 			 const element = document.getElementById(key);
 			 if (!element) break;
-
 			 element.style.display = value;
-
 			 const membersAttr = element.getAttribute("data-members");
 			 if (membersAttr !== null) {
 				const membersArray = membersAttr.split(",");
@@ -38,11 +36,9 @@
 				  const memberId = membersArray[j].trim();
 				  const memberElement = document.getElementById(memberId);
 				  if (!memberElement) continue;
-
 				  if (value === "none" && memberElement.type === "checkbox") {
 					 memberElement.checked = false;
 				  }
-
 				  if (memberElement.type === "checkbox") {
 					 checkBoxShowHide(memberElement);
 				  } else if (memberElement.type === "radio") {
@@ -50,7 +46,6 @@
 				  }
 				}
 			 }
-
 			 i++;
 		  }
 		}
@@ -66,7 +61,6 @@
 		  for (let j = 0; j < elements.length; j++) {
 			 const memberElement = document.getElementById(elements[j].id);
 			 if (!memberElement) continue;
-
 			 localforage.setItem(memberElement.id, memberElement.checked).catch(console.error);
 			 setHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
 		  }
@@ -119,95 +113,57 @@
 		  <tr valign="top">
 			 <td style="width:300px;text-align:top;">
 				<form name="Form">
-				  <!--      <label><input type="checkbox" name="Disco" id="Disco">
-				  mit Disc-o-Fever</label><br> -->
-				  <label><input type="radio" name="Door" id="DoorOut">
-					 draußen</label>
-				  <label><input type="radio" name="Door" id="DoorIn">
-					 drinnen</label><br>
+				  <!--      <label><input type="checkbox" name="Disco" id="Disco">mit Disc-o-Fever</label><br> -->
+				  <label><input type="radio" name="Door" id="DoorOut">draußen</label>
+				  <label><input type="radio" name="Door" id="DoorIn">drinnen</label><br>
 				  <div id="DoorOut1HideableArea" style="display:none" data-members="Sun,Rain,Cold">
-					 <label><input type="checkbox" name="Sun" id="Sun">
-						sonnig</label>
-					 <label><input type="checkbox" name="Rain" id="Rain">
-						regnerisch</label>
-					 <label><input type="checkbox" name="Cold" id="Cold">
-						kalt</label><br>
+					 <label><input type="checkbox" name="Sun" id="Sun">sonnig</label>
+					 <label><input type="checkbox" name="Rain" id="Rain">regnerisch</label>
+					 <label><input type="checkbox" name="Cold" id="Cold">kalt</label><br>
 				  </div>
 				  <br>
-				  <label><input type="radio" name="Surface" id="SurfaceGrass">
-					 Gras (Kunstrasen)</label><br>
-				  <label><input type="radio" name="Surface" id="SurfaceSand">
-					 Sand</label>
+				  <label><input type="radio" name="Surface" id="SurfaceGrass">Gras (Kunstrasen)</label><br>
+				  <label><input type="radio" name="Surface" id="SurfaceSand">Sand</label>
 				  <div id="DoorIn1HideableArea" style="display:none" data-members="SurfaceIndoor">
-					 <label><input type="radio" name="Surface" id="SurfaceIndoor">
-						Halle</label>
+					 <label><input type="radio" name="Surface" id="SurfaceIndoor">Halle</label>
 				  </div>
 				  <br>
 				  <br>
-				  <label><input type="checkbox" name="Money" id="Money">
-					 im Nicht-€-Ausland</label><br>
+				  <label><input type="checkbox" name="Money" id="Money">im Nicht-€-Ausland</label><br>
 				  <div id="Money1HideableArea" style="display:none" data-members="Passport">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport">
-						im Nicht-EU-Ausland</label><br>
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport">im Nicht-EU-Ausland</label><br>
 				  </div>
-				  <label><input type="checkbox" name="Food" id="Food">
-					 es gibt was zum Essen (Frühstück)</label><br>
-				  <label><input type="checkbox" name="Sleeping" id="Sleeping">
-					 mit Übernachtung</label><br>
+				  <label><input type="checkbox" name="Food" id="Food">es gibt was zum Essen (Frühstück)</label><br>
+				  <label><input type="checkbox" name="Sleeping" id="Sleeping">mit Übernachtung</label><br>
 				  <div id="Sleeping1HideableArea" style="display:none" data-members="HousingCamping,HousingHotel,HousingGym">
-					 <label><input type="radio" name="Housing" id="HousingCamping">
-						Zelt</label>
-					 <label><input type="radio" name="Housing" id="HousingHotel">
-						Ho(s)tel</label>
-					 <label><input type="radio" name="Housing" id="HousingGym">
-						Schlafhalle</label><br><br>
+					 <label><input type="radio" name="Housing" id="HousingCamping">Zelt</label>
+					 <label><input type="radio" name="Housing" id="HousingHotel">Ho(s)tel</label>
+					 <label><input type="radio" name="Housing" id="HousingGym">Schlafhalle</label><br><br>
 				  </div>
-				  <label><input type="checkbox" name="Glasses" id="Glasses">
-					 Brillenträger</label><br>
-				  <label><input type="checkbox" name="Hurt" id="Hurt">
-					 Wehwehchen</label><br>
-				  <label><input type="checkbox" name="Injured" id="Injured">
-					 Invalide</label><br>
-				  <label><input type="checkbox" name="Drugs" id="Drugs">
-					 drogenabhängig</label><br>
-				  <label><input type="checkbox" name="Alcohol" id="Alcohol">
-					 <s>Alkoholiker</s> trinkfest</label><br>
-				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone">
-					 Smartphoner</label><br>
-				  <label><input type="checkbox" name="Captain" id="Captain">
-					 Chef-Stratege</label><br>
-				  <label><input type="checkbox" name="Hair" id="Hair">
-					 lange Haare</label><br>
-				  <label><input type="checkbox" name="Sweets" id="Sweets">
-					 Naschkatze</label><br>
-				  <label><input type="checkbox" name="Sleep" id="Sleep">
-					 Schlafmütze</label><br>
-				  <label><input type="checkbox" name="Shave" id="Shave">
-					 Rasierfreund</label><br>
-				  <label><input type="checkbox" name="Navi" id="Navi">
-					 orientierungslos</label><br>
-				  <label><input type="checkbox" name="Games" id="Games">
-					 Spielkind</label><br>
-				  <label><input type="checkbox" name="Chair" id="Chair">
-					 alter Mann ;-)</label><br>
-				  <label><input type="checkbox" name="Plugs" id="Plugs">
-					 leichter Schlaf</label><br>
-				  <label><input type="checkbox" name="List" id="List">
-					 durchorganisiert</label><br>
-				  <label><input type="checkbox" name="Treasurer" id="Treasurer">
-					 Kassenwart</label><br>
-				  <label><input type="checkbox" name="Boobs" id="Boobs">
-					 Brüsteträger(in)</label><br>
-				  <label><input type="checkbox" name="Party" id="Party">
-					 (Motto-)Party</label><br>
-				  <label><input type="checkbox" name="Swim" id="Swim">
-					 am Wasser</label><br>
+				  <label><input type="checkbox" name="Glasses" id="Glasses">Brillenträger</label><br>
+				  <label><input type="checkbox" name="Hurt" id="Hurt">Wehwehchen</label><br>
+				  <label><input type="checkbox" name="Injured" id="Injured">Invalide</label><br>
+				  <label><input type="checkbox" name="Drugs" id="Drugs">drogenabhängig</label><br>
+				  <label><input type="checkbox" name="Alcohol" id="Alcohol"><s>Alkoholiker</s> trinkfest</label><br>
+				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone">Smartphoner</label><br>
+				  <label><input type="checkbox" name="Captain" id="Captain">Chef-Stratege</label><br>
+				  <label><input type="checkbox" name="Hair" id="Hair">lange Haare</label><br>
+				  <label><input type="checkbox" name="Sweets" id="Sweets">Naschkatze</label><br>
+				  <label><input type="checkbox" name="Sleep" id="Sleep">Schlafmütze</label><br>
+				  <label><input type="checkbox" name="Shave" id="Shave">Rasierfreund</label><br>
+				  <label><input type="checkbox" name="Navi" id="Navi">orientierungslos</label><br>
+				  <label><input type="checkbox" name="Games" id="Games">Spielkind</label><br>
+				  <label><input type="checkbox" name="Chair" id="Chair">alter Mann ;-)</label><br>
+				  <label><input type="checkbox" name="Plugs" id="Plugs">leichter Schlaf</label><br>
+				  <label><input type="checkbox" name="List" id="List">durchorganisiert</label><br>
+				  <label><input type="checkbox" name="Treasurer" id="Treasurer">Kassenwart</label><br>
+				  <label><input type="checkbox" name="Boobs" id="Boobs">Brüsteträger(in)</label><br>
+				  <label><input type="checkbox" name="Party" id="Party">(Motto-)Party</label><br>
+				  <label><input type="checkbox" name="Swim" id="Swim">am Wasser</label><br>
 				  <div id="Swim1HideableArea" style="display:none" data-members="Insects">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects">
-						am See/Fluss</label><br>
+					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects">am See/Fluss</label><br>
 				  </div>
-				  <label><input type="checkbox" name="Thing" id="Thing">
-					 das eine Ding da</label>
+				  <label><input type="checkbox" name="Thing" id="Thing">das eine Ding da</label>
 				</form>
 			 </td>
 
