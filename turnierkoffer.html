@@ -107,7 +107,7 @@
 		}
 
 		function resetAllValues() {
-			 if (!confirm("Alle gespeicherten Werte wirklich zurücksetzen?")) return;
+			 if (!confirm("Alle Auswahlen wirklich zurücksetzen?")) return;
 			 localforage.clear().then(() => {
 				  window.location.reload();
 			 }).catch(console.error);
@@ -184,7 +184,7 @@
 				  <label><input type="checkbox" name="Hurt" id="Hurt">Wehwehchen</label><br>
 				  <label><input type="checkbox" name="Injured" id="Injured">Invalide</label><br>
 				  <label><input type="checkbox" name="Drugs" id="Drugs">drogenabhängig</label><br>
-				  <label><input type="checkbox" name="Alcohol" id="Alcohol"><s>Alkoholiker</s> trinkfest</label><br>
+				  <label><input type="checkbox" name="Alcohol" id="Alcohol"><s>Alkoholiker</s>&nbsp;trinkfest</label><br>
 				  <label><input type="checkbox" name="SmartPhone" id="SmartPhone">Smartphoner</label><br>
 				  <label><input type="checkbox" name="Captain" id="Captain">Chef-Stratege</label><br>
 				  <label><input type="checkbox" name="Hair" id="Hair">lange Haare</label><br>
@@ -278,7 +278,7 @@
 
 				<h4>ausm Bad</h4>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Duschgel, Shampoo</label><br>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <del>Badeschlappen</del>&nbsp;Adiletten!</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <s>Badeschlappen</s>&nbsp;Adiletten!</label><br>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Deo / Aftershave / Parfum</label><br>
 				<div id="Sleeping3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zahnbürste, Zahnpasta</label><br>
@@ -360,7 +360,7 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Handschuhe</label><br>
 				</div>
 				<div id="Games1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten,&nbsp;<a href="http://www.wurstquartett.de/">Wurstquartett</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff im Zoo</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/Cafe_International">Café International</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/6_nimmt">6 nimmt</a>, Tablet, ...</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten, <a href="http://www.wurstquartett.de/">Wurstquartett</a>, <a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff&nbsp;im&nbsp;Zoo</a>, <a href="http://de.wikipedia.org/wiki/Cafe_International">Café&nbsp;International</a>, <a href="http://de.wikipedia.org/wiki/6_nimmt">6&nbsp;nimmt</a>, Tablet, ...</label><br>
 				</div>
 				<div id="Chair1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Klappstuhl / Dreibein</label><br>
@@ -384,6 +384,6 @@
 	 </table>
 
 	 <p><button type="button" id="reset_all">Alles zurücksetzen</button><br><br>
-	 <a href="mailto:stefanhorter+koffer@gmail.com">Vorschläge?</a></p>
+	 <a href="mailto:stefanhorter+koffer@gmail.com">Vorschläge, Hinweise, Feedback</a></p>
   </body>
 </html>
