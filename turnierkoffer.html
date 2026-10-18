@@ -1,7 +1,47 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-	 <meta charset="UTF-8">
+	 <meta charset="utf-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <meta name="color-scheme" content="light dark">
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css">
+	 <style>
+		:root,
+		:host {
+			 --pico-font-size: 100%;
+		}
+		h1, h2, h3, h4, h5, h6,
+		p {
+			 margin: 1rem;
+		}
+		table {
+			 width: 100%;
+			 table-layout: fixed;
+		}
+		label:has(input[type="checkbox"]),
+		label:has(input[type="radio"]) {
+			 display: inline-flex;
+			 align-items: center;
+			 width: auto;
+			 margin-right: 1rem;
+		}
+		label:has(input[type="text"]) {
+			 width: auto;
+			 flex: 1 1 auto;
+		}
+		input[type="checkbox"],
+		input[type="radio"] {
+			 width: 1.25rem !important;
+			 height: 1.25rem !important;
+			 margin: 0 0.375rem 0 0 !important;
+			 flex: 0 0 auto;
+		}
+		input[type="text"] {
+			 height: auto !important;
+			 padding: 2px 4px;
+			 margin: 0;
+		}
+	 </style>
 	 <title>Turnierkoffer</title>
 	 <script src="localforage.js"></script>
 	 <script>
@@ -10,108 +50,108 @@
 
 	 <script>
 		async function setValue(id) {
-		  try {
-			 const value = await localforage.getItem(id);
-			 const el = document.getElementById(id);
-			 if (!el) return;
+			 try {
+				  const value = await localforage.getItem(id);
+				  const el = document.getElementById(id);
+				  if (!el) return;
 
-			 el.checked = !!value;
-			 setHideableAreas(id, value ? "block" : "none");
-		  } catch (err) {
-			 console.error("Error loading value for", id, err);
-		  }
+				  el.checked = !!value;
+				  setHideableAreas(id, value ? "block" : "none");
+			 } catch (err) {
+				  console.error("Error loading value for", id, err);
+			 }
 		}
 
 		function setHideableAreas(name, value) {
-		  let i = 1;
-		  while (true) {
-			 const key = name + i + "HideableArea";
-			 const element = document.getElementById(key);
-			 if (!element) break;
-			 element.style.display = value;
-			 const membersAttr = element.getAttribute("data-members");
-			 if (membersAttr !== null) {
-				const membersArray = membersAttr.split(",");
-				for (let j = 0; j < membersArray.length; j++) {
-				  const memberId = membersArray[j].trim();
-				  const memberElement = document.getElementById(memberId);
-				  if (!memberElement) continue;
-				  if (value === "none" && memberElement.type === "checkbox") {
-					 memberElement.checked = false;
+			 let i = 1;
+			 while (true) {
+				  const key = name + i + "HideableArea";
+				  const element = document.getElementById(key);
+				  if (!element) break;
+				  element.style.display = value;
+				  const membersAttr = element.getAttribute("data-members");
+				  if (membersAttr !== null) {
+						const membersArray = membersAttr.split(",");
+						for (let j = 0; j < membersArray.length; j++) {
+							 const memberId = membersArray[j].trim();
+							 const memberElement = document.getElementById(memberId);
+							 if (!memberElement) continue;
+							 if (value === "none" && memberElement.type === "checkbox") {
+								  memberElement.checked = false;
+							 }
+							 if (memberElement.type === "checkbox") {
+								  checkBoxShowHide(memberElement);
+							 } else if (memberElement.type === "radio") {
+								  radioButtonShowHide(memberElement);
+							 }
+						}
 				  }
-				  if (memberElement.type === "checkbox") {
-					 checkBoxShowHide(memberElement);
-				  } else if (memberElement.type === "radio") {
-					 radioButtonShowHide(memberElement);
-				  }
-				}
+				  i++;
 			 }
-			 i++;
-		  }
 		}
 
 		function checkBoxShowHide(element) {
-		  console.log("element.name=" + element.name + ", checked=" + element.checked);
-		  localforage.setItem(element.name, element.checked).catch(console.error);
-		  setHideableAreas(element.name, element.checked ? "block" : "none");
+			 console.log("element.name=" + element.name + ", checked=" + element.checked);
+			 localforage.setItem(element.name, element.checked).catch(console.error);
+			 setHideableAreas(element.name, element.checked ? "block" : "none");
 		}
 
 		function radioButtonShowHide(element) {
-		  const elements = document.getElementsByName(element.name);
-		  for (let j = 0; j < elements.length; j++) {
-			 const memberElement = document.getElementById(elements[j].id);
-			 if (!memberElement) continue;
-			 localforage.setItem(memberElement.id, memberElement.checked).catch(console.error);
-			 setHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
-		  }
+			 const elements = document.getElementsByName(element.name);
+			 for (let j = 0; j < elements.length; j++) {
+				  const memberElement = document.getElementById(elements[j].id);
+				  if (!memberElement) continue;
+				  localforage.setItem(memberElement.id, memberElement.checked).catch(console.error);
+				  setHideableAreas(memberElement.id, memberElement.checked ? "block" : "none");
+			 }
 		}
 
 		function resetAllValues() {
-		  if (!confirm("Alle gespeicherten Werte wirklich zurücksetzen?")) return;
-		  localforage.clear().then(() => {
-			 window.location.reload();
-		  }).catch(console.error);
+			 if (!confirm("Alle gespeicherten Werte wirklich zurücksetzen?")) return;
+			 localforage.clear().then(() => {
+				  window.location.reload();
+			 }).catch(console.error);
 		}
 
 		document.addEventListener("DOMContentLoaded", () => {
-		  document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
-			 input.addEventListener("change", () => {
-				if (input.type === "checkbox") {
-				  checkBoxShowHide(input);
-				} else if (input.type === "radio") {
-				  radioButtonShowHide(input);
-				}
+			 document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+				  input.addEventListener("change", () => {
+						if (input.type === "checkbox") {
+							 checkBoxShowHide(input);
+						} else if (input.type === "radio") {
+							 radioButtonShowHide(input);
+						}
+				  });
 			 });
-		  });
 
-		  const resetButton = document.getElementById("reset_all");
-		  if (resetButton) {
-			 resetButton.addEventListener("click", resetAllValues);
-		  }
+			 const resetButton = document.getElementById("reset_all");
+			 if (resetButton) {
+				  resetButton.addEventListener("click", resetAllValues);
+			 }
 
-		  const ids = [
-			 "Sun", "Rain", "Cold", "Money", "Passport", "Food", "Sleeping",
-			 "Glasses", "Hurt", "Injured", "Drugs", "Alcohol", "SmartPhone",
-			 "Captain", "Hair", "Sweets", "Sleep", "Shave", "Navi", "Games",
-			 "Chair", "Plugs", "List", "Treasurer", "Boobs", "Party", "Swim",
-			 "Insects", "Thing", "DoorOut", "DoorIn", "SurfaceGrass",
-			 "SurfaceSand", "SurfaceIndoor", "HousingCamping", "HousingHotel",
-			 "HousingGym"
-		  ];
+			 const ids = [
+				  "Sun", "Rain", "Cold", "Money", "Passport", "Food", "Sleeping",
+				  "Glasses", "Hurt", "Injured", "Drugs", "Alcohol", "SmartPhone",
+				  "Captain", "Hair", "Sweets", "Sleep", "Shave", "Navi", "Games",
+				  "Chair", "Plugs", "List", "Treasurer", "Boobs", "Party", "Swim",
+				  "Insects", "Thing", "DoorOut", "DoorIn", "SurfaceGrass",
+				  "SurfaceSand", "SurfaceIndoor", "HousingCamping", "HousingHotel",
+				  "HousingGym"
+			 ];
 
-		  ids.forEach(id => setValue(id));
+			 ids.forEach(id => setValue(id));
 		});
 	 </script>
   </head>
 
   <body>
 	 <h1>Turnierkoffer</h1>
-	 <small>(kann auch für Taschen und Rucksäcke verwendet werden)</small><br><br>
-	 Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.<br><br>
+	 <p><small>(kann auch für Taschen und Rucksäcke verwendet werden)</small><br>
+	 Wir gehen davon aus, dass ihr schon etwas anhabt, wenn ihr auf das Turnier fahrt.</p>
 	 <table>
 		<tbody>
 		  <tr valign="top">
-			 <td style="width:300px;text-align:top;">
+			 <td style="text-align:top;">
 				<form name="Form">
 				  <!--      <label><input type="checkbox" name="Disco" id="Disco">mit Disc-o-Fever</label><br> -->
 				  <label><input type="radio" name="Door" id="DoorOut">draußen</label>
@@ -131,7 +171,7 @@
 				  <br>
 				  <label><input type="checkbox" name="Money" id="Money">im Nicht-€-Ausland</label><br>
 				  <div id="Money1HideableArea" style="display:none" data-members="Passport">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Passport" id="Passport">im Nicht-EU-Ausland</label><br>
+					 &emsp;<label><input type="checkbox" name="Passport" id="Passport">im Nicht-EU-Ausland</label><br>
 				  </div>
 				  <label><input type="checkbox" name="Food" id="Food">es gibt was zum Essen (Frühstück)</label><br>
 				  <label><input type="checkbox" name="Sleeping" id="Sleeping">mit Übernachtung</label><br>
@@ -161,7 +201,7 @@
 				  <label><input type="checkbox" name="Party" id="Party">(Motto-)Party</label><br>
 				  <label><input type="checkbox" name="Swim" id="Swim">am Wasser</label><br>
 				  <div id="Swim1HideableArea" style="display:none" data-members="Insects">
-					 &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="Insects" id="Insects">am See/Fluss</label><br>
+					 &emsp;<label><input type="checkbox" name="Insects" id="Insects">am See/Fluss</label><br>
 				  </div>
 				  <label><input type="checkbox" name="Thing" id="Thing">das eine Ding da</label>
 				</form>
@@ -171,7 +211,7 @@
 				Was nehm ich auf das Turnier mit?
 
 				<h4>Essentielles</h4>
-				<input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe<br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Scheibe</label><br>
 				<!-- <div id="Disco1HideableArea" style="display:none"> -->
 				<!--          <label><input type="checkbox" name="irrelevant" value="irrelevant"> Disc-o-Anzug</label><br> -->
 				<!-- </div> -->
@@ -197,7 +237,7 @@
 				<h4>ausm Schrank</h4>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Sporthose</label><br>
 				<div id="Swim2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Badehose/Badeanzug/Bikini</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Badehose / Badeanzug / Bikini</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Socken, Unterwäsche</label><br>
 				<div id="SurfaceSand1HideableArea" style="display:none">
@@ -206,9 +246,9 @@
 				<div id="Boobs1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sport-BH</label><br>
 				</div>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> 2 Mannschafts-Trikots</label><br>
-				&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br>
-				&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> 2&nbsp;Mannschafts-Trikots</label><br>
+				&emsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> hell</label><br>
+				&emsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> dunkel</label><br>
 				<div id="Cold3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Thermoshirt, Tight, Trainingshose</label><br>
 				</div>
@@ -221,7 +261,7 @@
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Handtuch (<a href="https://en.wikipedia.org/wiki/Phrases_from_The_Hitchhiker%27s_Guide_to_the_Galaxy#Knowing_where_one's_towel_is">warum</a>?)</label><br>
 				<div id="Sun2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenhut/Tuch</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Sonnenhut / Tuch</label><br>
 				</div>
 				<div id="Rain2HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kappe</label><br>
@@ -237,9 +277,9 @@
 				</div>
 
 				<h4>ausm Bad</h4>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Duschgel (Shampoo)</label><br>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <del>Badeschlappen</del> Adiletten!</label><br>
-				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Deo/Aftershave/Parfum</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Duschgel, Shampoo</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> <del>Badeschlappen</del>&nbsp;Adiletten!</label><br>
+				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Deo / Aftershave / Parfum</label><br>
 				<div id="Sleeping3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Zahnbürste, Zahnpasta</label><br>
 				</div>
@@ -262,7 +302,7 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ibuprofen</label><br>
 				</div>
 				<div id="Hair1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kamm/Bürste, Haargummi(s)</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Kamm / Bürste, Haargummi(s)</label><br>
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Föhn</label><br>
 				</div>
 				<div id="Shave1HideableArea" style="display:none">
@@ -273,14 +313,14 @@
 				<div id="Food1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Teller, Becher</label><br>
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Messer, Gabel, Löffel</label><br>
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Tupperdose/Verpackung (für geschmierte Brötchen)</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Tupperdose / Verpackung (für geschmierte Brötchen)</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Trinkflasche</label><br>
 
 				<h4>sonstiges</h4>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Geld (für Startgebühr, Essen, ...)</label><br>
 				<div id="Money2HideableArea" style="display:none">
-				  &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
+				  &emsp;<label><input type="checkbox" name="irrelevant" value="irrelevant"> Devisen (Dollar, Franken, Kronen, ...)</label><br>
 				</div>
 				<label><input type="checkbox" name="irrelevant" value="irrelevant"> Tüte für Schmutzwäsche</label><br>
 				<div id="Alcohol1HideableArea" style="display:none">
@@ -302,13 +342,13 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Taktikboard, Spielzug-Zettel</label><br>
 				</div>
 				<div id="HousingCamping2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stirnlampe/Taschenlampe</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Stirnlampe / Taschenlampe</label><br>
 				</div>
 				<div id="Sweets1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Müsliriegel, Schokolade, Gummibärchen</label><br>
 				</div>
 				<div id="Hurt2HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Magnesium/Bananen</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Magnesium / Bananen</label><br>
 				</div>
 				<div id="Hurt3HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Black-Roll</label><br>
@@ -320,32 +360,30 @@
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Handschuhe</label><br>
 				</div>
 				<div id="Games1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten, <a href="http://www.wurstquartett.de/">Wurstquartett</a>, <a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff im Zoo</a>, <a href="http://de.wikipedia.org/wiki/Cafe_International">Café International</a>, <a href="http://de.wikipedia.org/wiki/6_nimmt">6 nimmt</a>, Tablet, ...</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Spielkarten,&nbsp;<a href="http://www.wurstquartett.de/">Wurstquartett</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/Zoff_im_Zoo">Zoff im Zoo</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/Cafe_International">Café International</a>,&nbsp;<a href="http://de.wikipedia.org/wiki/6_nimmt">6 nimmt</a>, Tablet, ...</label><br>
 				</div>
 				<div id="Chair1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Klappstuhl/Dreibein</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Klappstuhl / Dreibein</label><br>
 				</div>
 				<div id="Plugs1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Ohrstöpsel</label><br>
 				</div>
 				<div id="List1HideableArea" style="display:none">
-				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> was auf der Todo-Liste/in den Mails steht</label><br>
+				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> was auf der Todo-Liste / in den Mails steht</label><br>
 				</div>
 				<div id="Treasurer1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant"> Quittungsblock</label><br>
 				</div>
 				<div id="Thing1HideableArea" style="display:none">
 				  <label><input type="checkbox" name="irrelevant" value="irrelevant">
-					 <input type="text" name="thing" value="" placeholder="Playboy">
-				  </label><br>
+					 <input type="text" name="thing" value="" placeholder="Playboy"></label><br>
 				</div>
 			 </td>
 		  </tr>
 		</tbody>
 	 </table>
 
-	 <button type="button" id="reset_all">Alles zurücksetzen</button><br><br>
-
-	 <a href="mailto:stefanhorter+koffer@gmail.com">Vorschläge?</a>
+	 <p><button type="button" id="reset_all">Alles zurücksetzen</button><br><br>
+	 <a href="mailto:stefanhorter+koffer@gmail.com">Vorschläge?</a></p>
   </body>
 </html>
